@@ -7,13 +7,15 @@ region_df=pd.read_csv(r"D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis o
 
 df = Preprocessor.preprocessor(df,region_df)
 
+st.sidebar.title("Olympics Analysis")
+
 user_menu=st.sidebar.radio(
     'Select an option',
     ('Medal Tally','overall Analysis','Country-Wise Analysis','Athlete-wise Analysis')
     
 )
 if user_menu == 'Medal Tally':
-    st.header("Medal Tally")
+    st.sidebar.header("Medal Tally")
     years,country = helper.country_year_list(df)
     
     selected_year=st.sidebar.selectbox("Select Year",years)
