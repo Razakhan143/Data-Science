@@ -6,3 +6,12 @@ def medal_tally(df):
     medal_tally['total']=medal_tally['Gold']+medal_tally['Silver']+medal_tally['Bronze']
     return medal_tally
 
+def country_year_list(df):
+    years=df['Year'].unique().tolist()
+    years.sort()
+    years.insert(0,'Overall')
+    
+    country=np.unique(df['region'].dropna().values).tolist()
+    country.sort()
+    country.insert(0,'Overall')
+    return years,country
