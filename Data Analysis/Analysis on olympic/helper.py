@@ -34,7 +34,8 @@ def country_year_list(df):
     return years,country
 
 def participating_nations_overtime(df):
-    nations_over_time = df.drop_duplicates(['Year','region'])['Year'].value_counts().sort_values(ascending=True).reset_index()
+    nations_over_time = df.drop_duplicates(subset=['Year','region'])['Year'].value_counts().reset_index()
     nations_over_time.rename(columns={'Year':'Edition','count':'No of Countries'},inplace=True)
+    nations_over_time = nations_over_time.sort_values(by="Edition")
     return nations_over_time
     
