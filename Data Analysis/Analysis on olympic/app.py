@@ -228,7 +228,7 @@ if user_menu =='Athlete-wise Analysis':
         st.pyplot(plt)
 
     
-    st.title('Weight VS Height of Athletes in the Sport : ' + selected_sport)
+    st.title('Weight VS Height of Athletes ' )
     selected_sport = st.selectbox('Select Sports to View', name)
     temp_df = helper.weight_v_height(df,selected_sport)
     fig,ax = plt.subplots()
