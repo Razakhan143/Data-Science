@@ -2,7 +2,9 @@ import numpy as np
 
     
 def fetch_medal_tally(df,year,country):
+    
     medal_tally=df.drop_duplicates(subset=['Team','NOC','Games','Year','City','Sport','Event','Medal'])
+    
     flag=0
     if year=='Overall' and country=='Overall':
         temp_df = medal_tally
@@ -22,6 +24,7 @@ def fetch_medal_tally(df,year,country):
     return x 
 
 def country_year_list(df):
+    
     years=df['Year'].unique().tolist()
     years.sort()
     years.insert(0,'Overall')
