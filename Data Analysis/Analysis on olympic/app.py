@@ -239,9 +239,7 @@ if user_menu =='Athlete-wise Analysis':
     st.title('Men VS Women')
     final = helper.men_vs_women(df)
     fig = px.line(final, x="Year", y=["Male", "Female"], title="Participation Over the Years by Gender", labels={"value": "Number of Participants", "variable": "Gender"}, markers=True).update_traces(marker=dict(size=8), line=dict(width=3)).update_layout(title_font=dict(size=20, family="Arial", color="darkblue"), legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1), plot_bgcolor="white")
-    custom_colors = ["#1f77b4", "#ff7f0e"]
-    [fig.data[i].update(line=dict(color=custom_colors[i])) for i in range(len(custom_colors))]
-
+    
     st.plotly_chart(fig)
     
     
