@@ -74,3 +74,8 @@ def most_successful_countryathlete(df,country):
     return x 
 
 
+def weight_v_height(df,sport):
+    athlete_df=df.dropna(subset=['Name','region'])
+    athlete_df['Medal'].fillna('No Medal',inplace=True)
+    temp_df = athlete_df[athlete_df['Sport']== sport]
+    return temp_df

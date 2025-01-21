@@ -172,7 +172,6 @@ if user_menu =='Athlete-wise Analysis':
     labels = ['Overall Age', 'Gold Medalist', 'Silver Medalist', 'Bronze Medalist']
     colors = ['blue', 'gold', 'silver', 'brown']
 
-    # Plot the KDE distribution
     plt.figure(figsize=(10, 6))
     for i, x in enumerate(data):
         sns.kdeplot(x, label=labels[i], color=colors[i], linewidth=2)
@@ -185,6 +184,12 @@ if user_menu =='Athlete-wise Analysis':
     st.title('Age Wise Distribution')
     # Streamlit support
     st.pyplot(plt)
+    
+    
+    
+    
+    
+    
     
     medal=['Gold','Silver','Bronze']
     st.sidebar.title("Age wise Medal Distribution : ")
@@ -222,7 +227,14 @@ if user_menu =='Athlete-wise Analysis':
         # Display the plot in Streamlit
         st.pyplot(plt)
 
-        
+    
+    st.title('Weight VS Height of Athletes in the Sport : ' + selected_sport)
+    selected_sport = st.selectbox('Select Sports to View', name)
+    temp_df = helper.weight_v_height(df,selected_sport)
+    fig,ax = plt.subplots()
+    sns.scatterplot(x=temp_df['Weight'],y=temp_df['Height'],hue=temp_df['Medal'],style=temp_df['Sex'],s=40)
+    st.pyplot(fig)
+    
     
     
     
