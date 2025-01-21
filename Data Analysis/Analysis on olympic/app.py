@@ -137,8 +137,18 @@ if user_menu =='Country-Wise Analysis':
     st.plotly_chart(fig, use_container_width=True)
     
     
+    st.title(selected_coun + ' Excels in the following Sports')
     
-    
+    pivot_data=helper.country_event_heatmap(df,selected_coun)
+    pivot_data = pivot_data.pivot_table(index='Sport', columns='Year', values='Medal', aggfunc='count').fillna(0).astype(int)
+    fig, ax = plt.subplots(figsize=(20, 20))
+    sns.heatmap(pivot_data,  cbar_kws={'label': 'Event Count'}, ax=ax)
+
+    for i in range(pivot_data.shape[0]): 
+        for j in range(pivot_data.shape[1]):  
+            ax.text(j + 0.5, i + 0.5, str(pivot_data.iloc[i, j]), ha='center', va='center', fontsize=12, color='white')
+
+    st.pyplot(fig)
     
 #for running the app
 #streamlit run "D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\app.py"
