@@ -198,8 +198,8 @@ if user_menu =='Athlete-wise Analysis':
         spor=temp_df[temp_df['Medal']==medal_type]['Age'].dropna()
         x.append(spor)
         name.append(sport)
-
-    selected_sports = st.sidebar.multiselect('Select Sports to View', name)
+    st.title('Distribution of Age WRT Sport : '+medal_type)
+    selected_sports = st.multiselect('Select Sports to View', name)
 
 # Check if any sports are selected
     if selected_sports:
@@ -218,7 +218,7 @@ if user_menu =='Athlete-wise Analysis':
         plt.xlabel("Age", fontsize=12)
         plt.ylabel("Density", fontsize=12)
         plt.legend(title="Sports")
-        st.title('Distribution of Age WRT Sport : '+medal_type)
+
         # Display the plot in Streamlit
         st.pyplot(plt)
 
