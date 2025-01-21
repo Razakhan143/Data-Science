@@ -12,6 +12,7 @@ region_df=pd.read_csv(r"D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis o
 df = Preprocessor.preprocessor(df,region_df)
 
 st.sidebar.title("Olympics Analysis")
+st.sidebar.image()
 
 user_menu=st.sidebar.radio(
     'Select an option',
@@ -192,9 +193,9 @@ if user_menu =='Athlete-wise Analysis':
     
     
     medal=['Gold','Silver','Bronze']
-    st.sidebar.title("Age wise Medal Distribution : ")
-    medal_type = st.sidebar.selectbox("Select Medal Type",medal)
     
+    st.title('Distribution of Age WRT Sport : ')
+    medal_type = st.selectbox("Select Medal Type",medal,label_visibility='visible')
     famous_sport= df['Sport'].unique()
     x = []
     name = []
@@ -203,7 +204,6 @@ if user_menu =='Athlete-wise Analysis':
         spor=temp_df[temp_df['Medal']==medal_type]['Age'].dropna()
         x.append(spor)
         name.append(sport)
-    st.title('Distribution of Age WRT Sport : '+medal_type)
     selected_sports = st.multiselect('Select Sports to View', name)
 
 # Check if any sports are selected
