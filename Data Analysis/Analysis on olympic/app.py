@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import Preprocessor,helper
 import plotly.express as px
+import seaborn as sns
 
 df=pd.read_csv(r'D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\Athlete_events.csv')
 region_df=pd.read_csv(r"D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\noc_regions.csv")
@@ -73,28 +74,24 @@ if user_menu == "Overall Analysis":
         st.header('Athletes')
         st.title(athletes)
             
-    nations_over_time = helper.participating_nations_overtime(df)
-    # fig = px.line(nations_over_time, x= "Edition",y="No of Countries")
-    # st.plotly_chart(fig)
+    nations_over_time = helper.data_overtime(df,'region')
+
+    fig = px.line(nations_over_time,x="Edition",y="region",title="Participating Nations Over Time",labels={"Edition": "Year", "No of Countries": "Number of Countries"},markers=True)
+    fig.update_layout(title_font=dict(size=18, family="Arial", color="darkblue"),xaxis=dict(title="Year", showgrid=True, gridcolor="lightgrey"),yaxis=dict(title="Number of Participating Countries Over years", showgrid=True, gridcolor="lightgrey"),template="plotly_white")
+    st.plotly_chart(fig, use_container_width=True)
     
-    fig = px.line(
-        nations_over_time,
-        x="Edition",
-        y="No of Countries",
-        title="Participating Nations Over Time",
-        labels={"Edition": "Year", "No of Countries": "Number of Countries"},
-        markers=True
-    )
+    
+    nations_over_time = helper.data_overtime(df,'Event')
 
-# Enhancing the layout
-    fig.update_layout(
-        title_font=dict(size=18, family="Arial", color="darkblue"),
-        xaxis=dict(title="Year", showgrid=True, gridcolor="lightgrey"),
-        yaxis=dict(title="Number of Participating Countries", showgrid=True, gridcolor="lightgrey"),
-        template="plotly_white"
-    )
+    fig = px.line(nations_over_time,x="Edition",y="Event",title="Events Over Time",labels={"Edition": "Year", "Events": "Number of Events"},markers=True)
+    fig.update_layout(title_font=dict(size=18, family="Arial", color="darkblue"),xaxis=dict(title="Year", showgrid=True, gridcolor="lightgrey"),yaxis=dict(title="Number of Events Over years", showgrid=True, gridcolor="lightgrey"),template="plotly_white")
+    st.plotly_chart(fig, use_container_width=True)
+    
+    
+    athletes_over_time = helper.data_overtime(df,'Name')
 
-# Display the chart in Streamlit
+    fig = px.line(athletes_over_time,x="Edition",y="Name",title="Athletes Over Time",labels={"Edition": "Year", "Name": "Athletes of Events"},markers=True)
+    fig.update_layout(title_font=dict(size=18, family="Arial", color="darkblue"),xaxis=dict(title="Year", showgrid=True, gridcolor="lightgrey"),yaxis=dict(title="Number of Athletes Over years", showgrid=True, gridcolor="lightgrey"),template="plotly_white")
     st.plotly_chart(fig, use_container_width=True)
     
     
