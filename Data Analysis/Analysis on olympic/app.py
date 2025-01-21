@@ -150,5 +150,40 @@ if user_menu =='Country-Wise Analysis':
 
     st.pyplot(fig)
     
+    
+    st.title('Top 10 Athletes of '+selected_coun )
+    top10= helper.most_successful_countryathlete(df,selected_coun)
+    st.table(top10)
+    
+    
+    
+    
+if user_menu =='Athlete-wise Analysis':
+    
+    athlete_df=df.dropna(subset=['Name','region'])
+    x1 = athlete_df['Age'].dropna()
+    x2 = athlete_df[athlete_df['Medal']=='Gold']['Age'].dropna()
+    x3 = athlete_df[athlete_df['Medal']=='Silve']['Age'].dropna()
+    x4 = athlete_df[athlete_df['Medal']=='Bronze']['Age'].dropna()
+    
+    
+    data = [x1, x2, x3, x4]
+    labels = ['Overall Age', 'Gold Medalist', 'Silver Medalist', 'Bronze Medalist']
+    colors = ['blue', 'gold', 'silver', 'brown']
+
+    # Plot the KDE distribution
+    plt.figure(figsize=(10, 6))
+    for i, x in enumerate(data):
+        sns.kdeplot(x, label=labels[i], color=colors[i], linewidth=2)
+
+    plt.title('Age Distribution by Medal Type', fontsize=16)
+    plt.xlabel('Age', fontsize=14)
+    plt.ylabel('Density', fontsize=14)
+    plt.legend(title="Category", fontsize=12)
+    plt.grid(alpha=0.3)
+    st.title('Age Wise Distribution')
+    # Streamlit support
+    st.pyplot(plt)
+    
 #for running the app
 #streamlit run "D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\app.py"
