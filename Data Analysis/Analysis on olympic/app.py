@@ -3,6 +3,7 @@ import pandas as pd
 import Preprocessor,helper
 import plotly.express as px
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 df=pd.read_csv(r'D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\Athlete_events.csv')
 region_df=pd.read_csv(r"D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\noc_regions.csv")
@@ -94,7 +95,22 @@ if user_menu == "Overall Analysis":
     fig.update_layout(title_font=dict(size=18, family="Arial", color="darkblue"),xaxis=dict(title="Year", showgrid=True, gridcolor="lightgrey"),yaxis=dict(title="Number of Athletes Over years", showgrid=True, gridcolor="lightgrey"),template="plotly_white")
     st.plotly_chart(fig, use_container_width=True)
     
-    
-    
+    st.title("Number Of Event Overtime (Every Sport)")
+    fig,ax = plt.subplots(figsize=(20,20))
+    x=df.drop_duplicates(['Year','Sport','Event'])
+
+        # Create the pivot table with aggregation for counting events
+    pivot_data = x.pivot_table(index='Sport', columns='Year', values='Event', aggfunc='count').fillna(0).astype(int)
+
+    fig, ax = plt.subplots(figsize=(20, 20))
+    sns.heatmap(pivot_data,  cbar_kws={'label': 'Event Count'}, ax=ax)
+
+    # Manually add annotations to the heatmap cells
+    for i in range(pivot_data.shape[0]):  # Iterate over rows
+        for j in range(pivot_data.shape[1]):  # Iterate over columns
+            ax.text(j + 0.5, i + 0.5, str(pivot_data.iloc[i, j]), ha='center', va='center', fontsize=12, color='white')
+
+    # Display the plot in Streamlit
+    st.pyplot(fig)
 #for running the app
 #streamlit run "D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\app.py"
