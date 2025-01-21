@@ -185,14 +185,17 @@ if user_menu =='Athlete-wise Analysis':
     st.title('Age Wise Distribution')
     # Streamlit support
     st.pyplot(plt)
-
-
+    
+    medal=['Gold','Silver','Bronze']
+    st.sidebar.title("Age wise Medal Distribution : ")
+    medal_type = st.sidebar.selectbox("Select Medal Type",medal)
+    
     famous_sport= df['Sport'].unique()
     x = []
     name = []
     for sport in famous_sport:
         temp_df = athlete_df[athlete_df['Sport']== sport]
-        spor=temp_df[temp_df['Medal']=='Gold']['Age'].dropna()
+        spor=temp_df[temp_df['Medal']==medal_type]['Age'].dropna()
         x.append(spor)
         name.append(sport)
 
@@ -211,11 +214,11 @@ if user_menu =='Athlete-wise Analysis':
             sns.kdeplot(sport_data, label=selected_sports[i])
 
         # Customize the plot
-        plt.title("Gold Medalists' Age Distribution by Sport (KDE)", fontsize=16)
+        plt.title(medal_type+" Medalists' Age Distribution by Sport ", fontsize=16)
         plt.xlabel("Age", fontsize=12)
         plt.ylabel("Density", fontsize=12)
         plt.legend(title="Sports")
-        st.title('Distribution of Age WRT Sport')
+        st.title('Distribution of Age WRT Sport : '+medal_type)
         # Display the plot in Streamlit
         st.pyplot(plt)
 
