@@ -111,8 +111,16 @@ if user_menu == "Overall Analysis":
     
     
     st.title('Most Successful Athletes')
-    x=helper.most_successful(df,'Overall')
+    sport_list=df['Sport'].unique().tolist()
+    sport_list.sort()
+    sport_list.insert(0,'Overall')
+    selected_Sport= st.selectbox('Select a Sport',sport_list)
+    x= helper.most_successful(df,selected_Sport)
     st.table(x)
     
+    
+    
+    
+
 #for running the app
 #streamlit run "D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\app.py"
