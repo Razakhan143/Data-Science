@@ -72,3 +72,5 @@ def most_successful_countryathlete(df,country):
     x = temp_df['Name'].value_counts().reset_index().head(10).merge(df,left_on='Name',right_on='Name',how='left')[['Name','count','Sport']].drop_duplicates(['Name'])
     x.rename(columns={'count':'Medals'},inplace=True)
     return x 
+
+

@@ -4,6 +4,7 @@ import Preprocessor,helper
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
+import plotly.figure_factory as ff
 
 df=pd.read_csv(r'D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\Athlete_events.csv')
 region_df=pd.read_csv(r"D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\noc_regions.csv")
@@ -184,6 +185,44 @@ if user_menu =='Athlete-wise Analysis':
     st.title('Age Wise Distribution')
     # Streamlit support
     st.pyplot(plt)
+
+
+    famous_sport= df['Sport'].unique()
+    x = []
+    name = []
+    for sport in famous_sport:
+        temp_df = athlete_df[athlete_df['Sport']== sport]
+        spor=temp_df[temp_df['Medal']=='Gold']['Age'].dropna()
+        x.append(spor)
+        name.append(sport)
+
+    selected_sports = st.sidebar.multiselect('Select Sports to View', name)
+
+# Check if any sports are selected
+    if selected_sports:
+        # Filter data for selected sports
+        selected_data = [x[name.index(sport)] for sport in selected_sports]
+
+        # Create the plot
+        plt.figure(figsize=(12, 8))
+
+        # Plot KDE for each selected sport on the same graph
+        for i, sport_data in enumerate(selected_data):
+            sns.kdeplot(sport_data, label=selected_sports[i])
+
+        # Customize the plot
+        plt.title("Gold Medalists' Age Distribution by Sport (KDE)", fontsize=16)
+        plt.xlabel("Age", fontsize=12)
+        plt.ylabel("Density", fontsize=12)
+        plt.legend(title="Sports")
+        st.title('Distribution of Age WRT Sport')
+        # Display the plot in Streamlit
+        st.pyplot(plt)
+
+        
+    
+    
+    
     
 #for running the app
 #streamlit run "D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\app.py"
