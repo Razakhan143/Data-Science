@@ -122,11 +122,11 @@ if user_menu == "Overall Analysis":
     
     
 if user_menu =='Country-Wise Analysis':
-    st.title('ountry-Wise Analysis')
+    st.sidebar.title('Country-Wise Analysis')
     country_list =df['region'].dropna().unique().tolist()
     country_list.sort() 
     
-    selected_coun=st.selectbox('Select a Country',country_list)
+    selected_coun=st.sidebar.selectbox('Select a Country',country_list)
 
     st.title(selected_coun + ' Medal Tally Over the Years')
     year_medal = helper.year_wise_medal_tally(df,selected_coun)
