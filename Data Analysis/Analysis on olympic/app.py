@@ -441,27 +441,26 @@ if user_menu == "Overall Analysis":
 
 # Country-Wise Analysis Section
 if user_menu == "Country-Wise Analysis":
-    st.sidebar.title("🌍 Country-Wise Analysis")
+    st.sidebar.title(" Country-Wise Analysis")
     country_list = df['region'].dropna().unique().tolist()
     country_list.sort()
 
-    selected_country = st.sidebar.selectbox("Select a Country", country_list)
-    country_medal_tally = helper.year_wise_medal_tally(df, selected_country)
+    selected_coun = st.sidebar.selectbox("Select a Country", country_list)
+    country_medal_tally = helper.year_wise_medal_tally(df, selected_coun)
 
-    st.title(f"🏅 {selected_country}'s Medal Tally Over the Years")
+    st.title(f"🏅 {selected_coun}'s Medal Tally Over the Years")
     fig = px.line(
         country_medal_tally, 
         x="Year", y="Medal", 
-        title=f"🎖 {selected_country}'s Medal Trend",
+        title=f"🎖 {selected_coun}'s Medal Trend",
         markers=True,
         labels={"Year": "Year", "Medal": "Number of Medals"},
         template="plotly_white"
     )
     st.plotly_chart(fig)
     
-    
-    
-    st.title(selected_coun + ' Excels in the following Sports')
+ 
+    st.title('🎖'+selected_coun + ' Excels in the following Sports')
     
     pivot_data=helper.country_event_heatmap(df,selected_coun)
     pivot_data = pivot_data.pivot_table(index='Sport', columns='Year', values='Medal', aggfunc='count').fillna(0).astype(int)
@@ -475,9 +474,16 @@ if user_menu == "Country-Wise Analysis":
     st.pyplot(fig)
     
     
-    st.title('Top 10 Athletes of '+selected_coun )
+    st.title('Top 10 🎖 Athletes of '+selected_coun )
     top10= helper.most_successful_countryathlete(df,selected_coun)
     st.table(top10)
+    
+    
+    
+    
+    
+    
+    
     
 
 # Athlete-wise Analysis Section
@@ -498,14 +504,75 @@ if user_menu == "Athlete-wise Analysis":
     fig.update_layout(title="🏅 Age Distribution of Medalists", template="plotly_white")
     st.plotly_chart(fig)
 
+
+
+
+        
+    
+medal = ['Gold', 'Silver', 'Bronze']
+
+st.title('Distribution of Age WRT Sport :')
+medal_type = st.selectbox("Select Medal Type", medal, label_visibility='visible')
+famous_sport = df['Sport'].unique()
+x = []
+name = []
+for sport in famous_sport:
+    temp_df = athlete_df[athlete_df['Sport'] == sport]
+    spor = temp_df[temp_df['Medal'] == medal_type]['Age'].dropna()
+    x.append(spor)
+    name.append(sport)
+
+selected_sports = st.multiselect('Select Sports to View', name)
+
+# Check if any sports are selected
+if selected_sports:
+    # Filter data for selected sports
+    selected_data = [x[name.index(sport)] for sport in selected_sports]
+
+    # Create the plot
+    fig = ff.create_distplot(selected_data, medal, show_hist=False, show_rug=False)
+    fig.update_layout(
+        title="🏅 Age Distribution of Medalists by Sport",
+        xaxis_title="Age",
+        yaxis_title="Density",
+        template="plotly_white",
+        legend_title="Sports",
+    )
+    st.plotly_chart(fig)
+
+        
+
+        # Plot KDE for each selected sport on the same graph
+        # for i, sport_data in enumerate(selected_data):
+        #     sns.kdeplot(sport_data, label=selected_sports[i])
+
+        # # Customize the plot
+        # plt.title(medal_type+" Medalists' Age Distribution by Sport ", fontsize=16)
+        # plt.xlabel("Age", fontsize=12)
+        # plt.ylabel("Density", fontsize=12)
+        # plt.legend(title="Sports")
+
+        # # Display the plot in Streamlit
+        # st.pyplot(plt)
+
+    
+    st.title('Weight VS Height of Athletes ' )
+    selected_sport = st.selectbox('Select Sports to View', name)
+    temp_df = helper.weight_v_height(df,selected_sport)
+    fig,ax = plt.subplots()
+    sns.scatterplot(x=temp_df['Weight'],y=temp_df['Height'],hue=temp_df['Medal'],style=temp_df['Sex'],s=40)
+    st.pyplot(fig)
+    
+
+
     # Men vs Women Participation
     st.markdown("---")
-    st.title("👫 Gender Participation Over the Years")
+    st.title("Gender Participation Over the Years")
     gender_trend = helper.men_vs_women(df)
     fig = px.line(
         gender_trend, 
         x="Year", y=["Male", "Female"], 
-        title="👫 Gender Participation Trends",
+        title="Gender Participation Trends",
         markers=True,
         template="plotly_white"
     )
