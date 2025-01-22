@@ -507,53 +507,41 @@ if user_menu == "Athlete-wise Analysis":
 
 
 
+            
         
-    
-medal = ['Gold', 'Silver', 'Bronze']
+    medal = ['Gold', 'Silver', 'Bronze']
 
-st.title('Distribution of Age WRT Sport :')
-medal_type = st.selectbox("Select Medal Type", medal, label_visibility='visible')
-famous_sport = df['Sport'].unique()
-x = []
-name = []
-for sport in famous_sport:
-    temp_df = athlete_df[athlete_df['Sport'] == sport]
-    spor = temp_df[temp_df['Medal'] == medal_type]['Age'].dropna()
-    x.append(spor)
-    name.append(sport)
+    st.title('Distribution of Age WRT Sport :')
+    medal_type = st.selectbox("Select Medal Type", medal, label_visibility='visible')
+    famous_sport = df['Sport'].unique()
+    x = []
+    name = []
+    for sport in famous_sport:
+        temp_df = athlete_df[athlete_df['Sport'] == sport]
+        spor = temp_df[temp_df['Medal'] == medal_type]['Age'].dropna()
+        x.append(spor)
+        name.append(sport)
 
-selected_sports = st.multiselect('Select Sports to View', name)
+    selected_sports = st.multiselect('Select Sports to View', name)
 
-# Check if any sports are selected
-if selected_sports:
-    # Filter data for selected sports
-    selected_data = [x[name.index(sport)] for sport in selected_sports]
+    # Check if any sports are selected
+    if selected_sports:
+        # Filter data for selected sports
+        selected_data = [x[name.index(sport)] for sport in selected_sports]
 
-    # Create the plot
-    fig = ff.create_distplot(selected_data, medal, show_hist=False, show_rug=False)
-    fig.update_layout(
-        title="🏅 Age Distribution of Medalists by Sport",
-        xaxis_title="Age",
-        yaxis_title="Density",
-        template="plotly_white",
-        legend_title="Sports",
-    )
-    st.plotly_chart(fig)
+        # Create the plot
+        fig = ff.create_distplot(selected_data, selected_sports, show_hist=False, show_rug=False)
+        fig.update_layout(
+            title="🏅 Age Distribution of Medalists by Sport",
+            xaxis_title="Age",
+            yaxis_title="Density",
+            template="plotly_white",
+            legend_title="Sports",
+        )
+        st.plotly_chart(fig)
 
         
 
-        # Plot KDE for each selected sport on the same graph
-        # for i, sport_data in enumerate(selected_data):
-        #     sns.kdeplot(sport_data, label=selected_sports[i])
-
-        # # Customize the plot
-        # plt.title(medal_type+" Medalists' Age Distribution by Sport ", fontsize=16)
-        # plt.xlabel("Age", fontsize=12)
-        # plt.ylabel("Density", fontsize=12)
-        # plt.legend(title="Sports")
-
-        # # Display the plot in Streamlit
-        # st.pyplot(plt)
 
     
     st.title('Weight VS Height of Athletes ' )
