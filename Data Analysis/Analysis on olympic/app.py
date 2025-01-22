@@ -483,10 +483,6 @@ if user_menu == "Country-Wise Analysis":
     
     
     
-    
-    
-
-# Athlete-wise Analysis Section
 if user_menu == "Athlete-wise Analysis":
     st.title("🏃 Athlete Analysis")
 
