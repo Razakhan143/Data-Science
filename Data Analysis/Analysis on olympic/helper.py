@@ -1,27 +1,37 @@
 import numpy as np
+import pandas as pd
 
     
-def fetch_medal_tally(df,year,country):
+def fetch_medal_tally(df, year, country):
+    # Create one-hot encoding for 'Medal'
+    if 'Medal' in df.columns:
+        df = pd.concat([df, pd.get_dummies(df['Medal']).astype('int')], axis=1)
+    else:
+        raise KeyError("The 'Medal' column is missing in the DataFrame.")
     
-    medal_tally=df.drop_duplicates(subset=['Team','NOC','Games','Year','City','Sport','Event','Medal'])
+    # Remove duplicate rows for medal tally
+    medal_tally = df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
     
-    flag=0
-    if year=='Overall' and country=='Overall':
+    # Filtering based on year and country
+    if year == 'Overall' and country == 'Overall':
         temp_df = medal_tally
-    if year=='Overall' and country!='Overall':
-        flag=1
-        temp_df = medal_tally[medal_tally['region']==country]
-    if year!='Overall' and country=='Overall':
-        temp_df = medal_tally[medal_tally['Year']==int(year)]
-    if year!='Overall' and country!='Overall':
-        temp_df = medal_tally[(medal_tally['Year']==int(year)) & (medal_tally['region']==country)]
-    if flag==1:
-        x=temp_df.groupby('Year').sum()[['Gold','Silver','Bronze']].sort_values('Year',ascending=True).reset_index()
-    else:    
-        x=temp_df.groupby('region').sum()[['Gold','Silver','Bronze']].sort_values('Gold',ascending=False).reset_index()
-    x['total']=x['Gold']+x['Silver']+x['Bronze']
+    elif year == 'Overall' and country != 'Overall':
+        temp_df = medal_tally[medal_tally['region'] == country]
+    elif year != 'Overall' and country == 'Overall':
+        temp_df = medal_tally[medal_tally['Year'] == int(year)]
+    else:
+        temp_df = medal_tally[(medal_tally['Year'] == int(year)) & (medal_tally['region'] == country)]
     
-    return x 
+    # Grouping and aggregating data
+    if country != 'Overall':
+        x = temp_df.groupby('Year').sum()[['Gold', 'Silver', 'Bronze']].sort_values('Year').reset_index()
+    else:
+        x = temp_df.groupby('region').sum()[['Gold', 'Silver', 'Bronze']].sort_values('Gold', ascending=False).reset_index()
+    
+    # Calculate total medals
+    x['total'] = x['Gold'] + x['Silver'] + x['Bronze']
+    return x
+
 
 def country_year_list(df):
     
