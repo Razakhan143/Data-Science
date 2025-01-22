@@ -12,7 +12,22 @@ region_df=pd.read_csv(r"D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis o
 df = Preprocessor.preprocessor(df,region_df)
 
 st.sidebar.title("Olympics Analysis")
-st.sidebar.image()
+st.sidebar.image('Olympic logo.png')
+
+# page_bg_img = '''
+# <style>
+# .stApp {
+#     background-image: url("background.jpg"); /* Use a public image URL */
+#     background-repeat: repeat; /* Repeat the image */
+#     background-size: auto; /* Keep original size */
+#     background-attachment: fixed; /* Optional: Make the background fixed while scrolling */
+# }
+# </style>
+# '''
+
+# st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
 
 user_menu=st.sidebar.radio(
     'Select an option',
