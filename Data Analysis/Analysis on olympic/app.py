@@ -304,9 +304,17 @@ st.set_page_config(
 # Add custom CSS for a clean and elegant look
 custom_css = """
 <style>
+
+.stApp {
+        background-image: url("background.jpg");  /* Replace with your image URL */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
 body {
     background-color: #f8f9fa;
-    color: #333;
+    color: red;
     font-family: "Arial", sans-serif;
 }
 .sidebar .sidebar-content {
@@ -328,7 +336,7 @@ st.markdown(custom_css, unsafe_allow_html=True)
 
 # Sidebar
 st.sidebar.title("🏅 Olympics Analysis")
-st.sidebar.image('Olympic logo.png', use_column_width=True)
+st.sidebar.image('Olympic logo.png', use_container_width=True)
 st.sidebar.markdown("Explore the rich history of the Olympics through interactive data visualizations.")
 
 # Sidebar menu
@@ -351,7 +359,7 @@ if user_menu == 'Medal Tally':
     st.write("Explore the medal tallies for different countries and years.")
 
     if selected_year == 'Overall' and selected_country == 'Overall':
-        st.subheader('🌍 Overall Tally')
+        st.subheader(' Overall Tally')
     elif selected_year != 'Overall' and selected_country == 'Overall':
         st.subheader(f'🎯 Medal Tally in {selected_year} Olympics')
     elif selected_year == 'Overall' and selected_country != 'Overall':
