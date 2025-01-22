@@ -303,35 +303,57 @@ st.set_page_config(
 
 # Add custom CSS for a clean and elegant look
 custom_css = """
-<style>
+    <style>
 
-.stApp {
-        background-image: url("background.jpg");  /* Replace with your image URL */
+    .stApp {
+            background-image: url("background.jpg");  /* Replace with your image URL */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+    body {
+        background-color: #f8f9fa;
+        color: red;
+        font-family: "Arial", sans-serif;
+    }
+    .sidebar .sidebar-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-right: 10px solid #ddd;
+    }
+    h1, h2, h3 {
+        color: #004a99;
+        font-family: "Arial Black", sans-serif;
+    }
+    .metric {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    </style>
+    """
+    
+
+page_bg_img = '''
+    <style>
+    .stApp {
+        background-image: url("https://your-image-url.com/your-image.jpg");  /* Replace with your image URL */
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
+        height: 100vh; /* Full viewport height */
     }
+    .stSidebar {
+        background-color: rgba(0, 0, 0, 0.6); /* Add transparency for the sidebar */
+        color: white; /* Make sidebar text white */
+    }
+    .stTitle {
+        color: #FF5733; /* Custom color for the title */
+    }
+    </style>
+'''
 
-body {
-    background-color: #f8f9fa;
-    color: red;
-    font-family: "Arial", sans-serif;
-}
-.sidebar .sidebar-content {
-    background-color: #ffffff;
-    padding: 20px;
-    border-right: 1px solid #ddd;
-}
-h1, h2, h3 {
-    color: #004a99;
-    font-family: "Arial Black", sans-serif;
-}
-.metric {
-    font-size: 18px;
-    font-weight: bold;
-}
-</style>
-"""
+
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # Sidebar
