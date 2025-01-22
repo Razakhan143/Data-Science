@@ -3,14 +3,21 @@ import pandas as pd
 
     
 def fetch_medal_tally(df, year, country):
-    # Create one-hot encoding for 'Medal'
-    if 'Medal' in df.columns:
-        df = pd.concat([df, pd.get_dummies(df['Medal']).astype('int')], axis=1)
-    else:
-        raise KeyError("The 'Medal' column is missing in the DataFrame.")
+    # Ensure only summer season data
+    df = df[df['Season'] == 'Summer']
     
-    # Remove duplicate rows for medal tally
-    medal_tally = df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
+    # Drop duplicates
+    df = df.drop_duplicates()
+    
+    # One-hot encoding for medals
+    if 'Medal' in df.columns:
+        medal_dummies = pd.get_dummies(df['Medal']).astype('int8')
+        df = pd.concat([df, medal_dummies], axis=1)
+    else:
+        raise KeyError("The 'Medal' column is missing from the DataFrame.")
+    
+    # Keep only unique medal records
+    medal_tally = df.drop_duplicates(subset=['Team', 'NOC', 'Year', 'City', 'Sport', 'Event', 'Medal'])
     
     # Filtering based on year and country
     if year == 'Overall' and country == 'Overall':
@@ -22,13 +29,12 @@ def fetch_medal_tally(df, year, country):
     else:
         temp_df = medal_tally[(medal_tally['Year'] == int(year)) & (medal_tally['region'] == country)]
     
-    # Grouping and aggregating data
-    if country != 'Overall':
+    # Grouping and calculating totals
+    if year == 'Overall' and country != 'Overall':
         x = temp_df.groupby('Year').sum()[['Gold', 'Silver', 'Bronze']].sort_values('Year').reset_index()
     else:
         x = temp_df.groupby('region').sum()[['Gold', 'Silver', 'Bronze']].sort_values('Gold', ascending=False).reset_index()
     
-    # Calculate total medals
     x['total'] = x['Gold'] + x['Silver'] + x['Bronze']
     return x
 
@@ -61,6 +67,7 @@ def most_successful(df,sport):
     return x   
     
 def year_wise_medal_tally(df,country):
+    
     temp_df = df.dropna(subset=['Medal'])
     temp_df.drop_duplicates(subset=['Team','NOC','Games','Year','City','Sport','Event','Medal'],inplace=True)
     temp_df=temp_df[temp_df['region']==country]

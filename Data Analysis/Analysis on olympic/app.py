@@ -6,10 +6,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
 
-df=pd.read_csv(r'D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\olympics_2024_dataset.csv')
-# region_df=pd.read_csv(r"D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\dataset\Data_set\noc_regions.csv")
-
-# df = Preprocessor.preprocessor(df,region_df)
+df=pd.read_csv(r'Data Analysis\Analysis on olympic\dataset\Data_set\Olympics_2024_.csv')
+df=df[df['Season']=='Summer']
 
 st.sidebar.title("Olympics Analysis")
 st.sidebar.image('Olympic logo.png')
@@ -144,9 +142,10 @@ if user_menu =='Country-Wise Analysis':
     country_list.sort() 
     
     selected_coun=st.sidebar.selectbox('Select a Country',country_list)
+    year_medal = helper.year_wise_medal_tally(df,selected_coun)
+    st.table(year_medal)
 
     st.title(selected_coun + ' Medal Tally Over the Years')
-    year_medal = helper.year_wise_medal_tally(df,selected_coun)
 
     fig = px.line(year_medal, x="Year", y="Medal", title="Year Wise Medal Tally", labels={"Year": "Year", "Medal": "Number of Medals"}, markers=True).update_layout(title=dict(text="Participating Nations Over Time", font=dict(size=22, family="Arial Black", color="darkblue"), x=0.2, y=0.9), xaxis=dict(title="Year", showgrid=True, gridcolor="lightgrey", tickangle=45), yaxis=dict(title="Number of Medals", showgrid=True, gridcolor="lightgrey", tickformat=","), template="plotly_white", hovermode="x unified", legend=dict(title="Legend", orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5))
     fig.add_annotation(x=year_medal.loc[year_medal["Medal"].idxmax(), "Year"], y=year_medal["Medal"].max(), text=f"Highest ({year_medal['Medal'].max()})", showarrow=True, arrowhead=2, arrowsize=1, arrowcolor="green", font=dict(color="green", size=12))
