@@ -256,3 +256,27 @@ if user_menu == "Athlete-wise Analysis":
     )
     st.plotly_chart(fig)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#for running the app
+#streamlit run "D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\app.py"
