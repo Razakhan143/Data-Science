@@ -3,15 +3,7 @@ import pandas as pd
 
     
 def fetch_medal_tally(df, year, country):
-    # Ensure only summer season data
-    # One-hot encoding for medals
-    if 'Medal' in df.columns:
-        medal_dummies = pd.get_dummies(df['Medal']).astype('int8')
-        df = pd.concat([df, medal_dummies], axis=1)
-    else:
-        raise KeyError("The 'Medal' column is missing from the DataFrame.")
-    
-    # Keep only unique medal records
+
     medal_tally = df.drop_duplicates(subset=['Team', 'NOC', 'Year', 'City', 'Sport', 'Event', 'Medal'])
     
     # Filtering based on year and country
