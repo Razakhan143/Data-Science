@@ -4,11 +4,6 @@ import pandas as pd
     
 def fetch_medal_tally(df, year, country):
     # Ensure only summer season data
-    df = df[df['Season'] == 'Summer']
-    
-    # Drop duplicates
-    df = df.drop_duplicates()
-    
     # One-hot encoding for medals
     if 'Medal' in df.columns:
         medal_dummies = pd.get_dummies(df['Medal']).astype('int8')
