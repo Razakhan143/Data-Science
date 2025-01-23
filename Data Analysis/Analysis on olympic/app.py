@@ -8,7 +8,7 @@ import plotly.figure_factory as ff
 
 # Load data
 df = pd.read_csv(r'Data Analysis\Analysis on olympic\dataset\Data_set\Olympics_2024_.csv')
-df = df[df['Season'] == 'Summer']
+df=Preprocessor.preprocessor(df)
 
 # Page configuration
 st.set_page_config(
