@@ -278,5 +278,5 @@ if user_menu == "Athlete-wise Analysis":
 
 
 
-#for running the app
+# running the app
 #streamlit run "D:\PROFESSIONAL\AI\Data Science\Data Analysis\Analysis on olympic\app.py"
