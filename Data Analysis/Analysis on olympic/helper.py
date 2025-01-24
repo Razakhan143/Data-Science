@@ -6,7 +6,6 @@ def fetch_medal_tally(df, year, country):
 
     medal_tally = df.drop_duplicates(subset=['Team', 'NOC', 'Year', 'City', 'Sport', 'Event', 'Medal'])
     
-    # Filtering based on year and country
     if year == 'Overall' and country == 'Overall':
         temp_df = medal_tally
     elif year == 'Overall' and country != 'Overall':
@@ -16,7 +15,6 @@ def fetch_medal_tally(df, year, country):
     else:
         temp_df = medal_tally[(medal_tally['Year'] == int(year)) & (medal_tally['region'] == country)]
     
-    # Grouping and calculating totals
     if year == 'Overall' and country != 'Overall':
         x = temp_df.groupby('Year').sum()[['Gold', 'Silver', 'Bronze']].sort_values('Year').reset_index()
     else:
