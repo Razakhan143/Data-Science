@@ -14,7 +14,7 @@ def fetch_medal_tally(df, year, country):
         temp_df = medal_tally[medal_tally['Year'] == int(year)]
     else:
         temp_df = medal_tally[(medal_tally['Year'] == int(year)) & (medal_tally['region'] == country)]
-    
+
     if year == 'Overall' and country != 'Overall':
         x = temp_df.groupby('Year').sum()[['Gold', 'Silver', 'Bronze']].sort_values('Year').reset_index()
     else:

@@ -1,5 +1,5 @@
 import pandas as pd
-
+#processing data
 def preprocessor(df):
     
     df = df[df['Season']=='Summer']
